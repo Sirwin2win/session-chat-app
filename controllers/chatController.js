@@ -23,10 +23,10 @@ exports.chat = async (req, res) => {
 
     // 2. Format for Gemini (with safety filter)
 const context = history
-  .filter(msg => msg.content && msg.content.trim() !== "") // Remove empty messages
+  .filter(msg => msg.parts && msg.parts.trim() !== "") // Remove empty messages
   .map(msg => ({
     role: msg.role === "model" ? "model" : "user", // Ensure role is exactly right
-    parts: [{ text: msg.content }]
+    parts: [{ text: msg.parts }]
   }));
 
 // 3. Add new user message (with safety check)
@@ -69,7 +69,9 @@ context.push({
       { upsert: true, new: true }
     );
 
-    return res.json({ reply: aiReply });
+    // return res.send([{user:req.body.prompt,model:aiReply}]);
+    const info = await Chat.findOne({userId})
+    res.send(info.messages)
 
   } catch (error) {
     console.error(error);
