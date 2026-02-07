@@ -35,6 +35,10 @@ app.use(session({
 app.use('/api/auth',UserRoutes)
 app.use('/',ChatRoute)
 
+app.get('/',(req,res)=>{
+    res.send('Hello AI')
+})
+
 
 const port = process.env.PORT || 7000
 
