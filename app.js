@@ -5,6 +5,7 @@ const MongoStore = require('connect-mongo').default
 const connectDB = require('./config/db')
 const UserRoutes = require('./routes/userRoute')
 const ChatRoute = require('./routes/chatRoute')
+const cors = require('cors')
 
 
 
@@ -13,6 +14,7 @@ const app = express()
 connectDB()
 
 app.use(express.json())
+app.use(cors())
 app.use(express.urlencoded({extended:false}))
 app.use(session({
     secret: process.env.SESSION_SECRET_KEY,
@@ -26,7 +28,7 @@ app.use(session({
         autoRemoveInterval: 10,
     }),
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24, // 24 hours
+        maxAge: 1000 * 60 * 60 * 24, // 24 hours    https://session-chat-app.onrender.com/
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
         sameSite: 'lax'
