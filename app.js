@@ -16,7 +16,7 @@ connectDB()
 app.use(express.json())
 // app.use(cors())
 app.use(cors({
-  origin: 'http://localhost:5173', // Replace with your actual frontend URL
+  origin: 'https://ai-client-tan.vercel.app/', // Replace with your actual frontend URL
   credentials: true
 }));
 app.use(express.urlencoded({extended:false}))
@@ -34,8 +34,8 @@ app.use(session({
     cookie: {
         maxAge: 1000 * 60 * 60 * 24, // 24 hours    https://session-chat-app.onrender.com/
         httpOnly: true,
-        secure: 'false', // Use secure cookies in production
-        //secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        //secure: 'false', // Use secure cookies in production
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
         sameSite: 'lax'
     }
 }));
