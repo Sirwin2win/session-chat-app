@@ -27,31 +27,57 @@ exports.register = async(req,res)=>{
     }
 }
 // Login user
-exports.login = async(req,res)=>{
-    const {email,password} = req.body
-    // check for user
-    const user = await User.findOne({email})
-    if(!user){
-      return  res.status(404).json({message:"User not found"})
-    }
+// exports.login = async(req,res)=>{
+//     const {email,password} = req.body
+//     // check for user
+//     const user = await User.findOne({email})
+//     if(!user){
+//       return  res.status(404).json({message:"User not found"})
+//     }
+//     try {
+//         // if(user && await bcrypt.compare(password,user.password)){
+//             // check password
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.status(401).json({ message: "Invalid credentials" });
+//     }
+    
+//     if (!isMatch) {
+//       return res.status(401).json({ message: "Invalid credentials" });
+//     }
+//         req.session.userId = user._id.toString();
+//         res.status(201).json({msg:'Logged in successfully!'})        
+    
+//     } catch (error) {
+//         res.send(error.message)
+//     }
+// }
+
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
     try {
-        // if(user && await bcrypt.compare(password,user.password)){
-            // check password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-    
-    if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
+
+        // Set the session
         req.session.userId = user._id.toString();
-        res.status(201).json({msg:'Logged in successfully!'})        
-    
+        
+        // Explicitly save the session before sending the response
+        req.session.save((err) => {
+            if (err) return res.status(500).json({ message: "Session save failed" });
+            return res.status(200).json({ msg: 'Logged in successfully!' });
+        });
+
     } catch (error) {
-        res.send(error.message)
+        res.status(500).json({ message: error.message });
     }
-}
+};
+
+
+
 
 exports.logout = async(req,res)=>{
     res.session.destroy(err=>{

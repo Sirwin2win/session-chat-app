@@ -14,7 +14,11 @@ const app = express()
 connectDB()
 
 app.use(express.json())
-app.use(cors())
+// app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace with your actual frontend URL
+  credentials: true
+}));
 app.use(express.urlencoded({extended:false}))
 app.use(session({
     secret: process.env.SESSION_SECRET_KEY,
