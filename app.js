@@ -34,7 +34,8 @@ app.use(session({
     cookie: {
         maxAge: 1000 * 60 * 60 * 24, // 24 hours    https://session-chat-app.onrender.com/
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        secure: 'false', // Use secure cookies in production
+        //secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
         sameSite: 'lax'
     }
 }));
