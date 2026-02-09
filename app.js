@@ -11,16 +11,18 @@ const cors = require('cors')
 
 
 const app = express()
+app.set("trust proxy", 1);
+
 connectDB()
 
 app.use(express.json())
 // app.use(cors())
 app.use(cors({
-  origin: 'https://ai-client-tan.vercel.app', // Replace with your actual frontend URL
+  origin: 'https://ai-client-tan.vercel.app/', // Replace with your actual frontend URL
   credentials: true
 }));
 app.use(express.urlencoded({extended:false}))
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 app.use(session({
   name: "sid",
