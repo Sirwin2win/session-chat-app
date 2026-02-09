@@ -9,7 +9,7 @@ const ai = new GoogleGenAI({
 
 });
 
-
+// Create chat
 exports.chat = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -74,7 +74,25 @@ context.push({
     res.send(info.messages)
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ error: error.message });
   }
 };
+
+// Get user chat
+
+exports.getChat = async(req,res)=>{
+  const userId = req.session.userId;
+  if(!userId) return res.send("You must be logged in")
+    try {
+  const info = await Chat.findOne({userId})
+  if(!info){
+    res.send("User info not found")
+  }else{
+    res.send(info.messages)
+  }
+    } catch (error) {
+          res.status(500).json({ error: error.message });
+
+    }
+}
