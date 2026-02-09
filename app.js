@@ -20,25 +20,25 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.urlencoded({extended:false}))
+app.set("trust proxy", 1);
+
 app.use(session({
-    secret: process.env.SESSION_SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI,
-        collectionName: 'sessions',
-        ttl: 14 * 24 * 60 * 60,
-        autoRemove: 'interval',
-        autoRemoveInterval: 10,
-    }),
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24, // 24 hours    https://session-chat-app.onrender.com/
-        httpOnly: true,
-        //secure: 'false', // Use secure cookies in production
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-        sameSite: 'none'
-    }
+  name: "sid",
+  secret: process.env.SESSION_SECRET_KEY,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    collectionName: 'sessions',
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
+    secure: true,
+    sameSite: "none"
+  }
 }));
+
 app.use('/api/auth',UserRoutes)
 app.use('/',ChatRoute)
 
