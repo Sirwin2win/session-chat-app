@@ -36,7 +36,7 @@ app.use(session({
         httpOnly: true,
         //secure: 'false', // Use secure cookies in production
         secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-        sameSite: 'lax'
+        sameSite: 'none'
     }
 }));
 app.use('/api/auth',UserRoutes)
