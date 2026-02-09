@@ -18,7 +18,7 @@ connectDB()
 app.use(express.json())
 // app.use(cors())
 app.use(cors({
-  origin: 'https://ai-client-tan.vercel.app/', // Replace with your actual frontend URL
+  origin: 'https://ai-client-tan.vercel.app', // Replace with your actual frontend URL
   credentials: true
 }));
 app.use(express.urlencoded({extended:false}))
