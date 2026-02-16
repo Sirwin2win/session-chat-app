@@ -50,7 +50,7 @@ exports.login = async (req, res) => {
         // Explicitly save the session before sending the response
         req.session.save((err) => {
             if (err) return res.status(500).json({ message: "Session save failed" });
-            return res.status(200).json({ msg: 'Logged in successfully!',  userId:req.session.userId });
+            return res.send(req.session.userId);
         });
 
     } catch (error) {
