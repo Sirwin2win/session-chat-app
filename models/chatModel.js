@@ -8,8 +8,7 @@ const ChatSchema = new mongoose.Schema({
         parts:{type:String,required:true},
         timestamp:{type:Date,default:Date.now}
     }],
-    // New: Store a short bio/summary of what the user likes
-  // memorySummary: { type: String, default: "" }
+    // New: Store a short bio/summary of what the user like
 })
 
 const Chat = mongoose.model('Chat',ChatSchema)
